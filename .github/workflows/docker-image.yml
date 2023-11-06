@@ -14,23 +14,27 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: build-image-nginx directory
+      run: cd nginx
     - name: build-image-nginx
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
           image: wissemgh5/pfe_nginx
           registry: docker.io
-          dockerfile: ./nginx/Dockerfile
+          dockerfile: Dockerfile
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           push: true
           tags: ${{ github.sha }}
+    - name: build-image-jdk8 directory
+      run: cd ../jdk8
     - uses: mr-smithers-excellent/docker-build-push@v6
       id: build-image-jdk8
       name: build-image-jdk8
       with:
           image: wissemgh5/pfe_jdk8
           registry: docker.io
-          dockerfile: ./jdk8/Dockerfile
+          dockerfile: Dockerfile
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           push: true
