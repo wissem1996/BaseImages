@@ -30,7 +30,7 @@ jobs:
       with:
           image: wissemgh5/pfe_jdk8
           registry: docker.io
-          dockerfile: ./jdk8/Dockerfile
+          dockerfile: ./jdk-8/Dockerfile
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           push: true
