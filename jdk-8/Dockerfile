@@ -15,7 +15,9 @@ WORKDIR  $BACKEND_HOME
 
 	## Adding user pfe 
 
-RUN  addgroup -S pfe  \
+RUN apk update \
+    && apk add openjdk8-jre \
+    && addgroup -S pfe  \
     && mkdir -p $PFE_HOME/bin \
     && adduser -D -S -h $PFE_HOME -s $PFE_HOME/bin/bash -G pfe pfe  \
 	&& ln -s /bin/ls  $PFE_HOME/bin/ls  \
