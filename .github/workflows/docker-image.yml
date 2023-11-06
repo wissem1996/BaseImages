@@ -1,0 +1,37 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: build-image-nginx
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+          image: wissemgh5/pfe_nginx
+          registry: docker.io
+          dockerfile: ./nginx/Dockerfile
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          push: true
+          tags: ${{ github.sha }}
+    - uses: mr-smithers-excellent/docker-build-push@v6
+      id: build-image-jdk8
+      name: build-image-jdk8
+      with:
+          image: wissemgh5/pfe_jdk8
+          registry: docker.io
+          dockerfile: ./jdk8/Dockerfile
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          push: true
+          tags: ${{ github.sha }}
