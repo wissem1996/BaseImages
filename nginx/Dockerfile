@@ -108,11 +108,11 @@ RUN set -x \
 RUN adduser -u 5000 pfe  --disabled-password 
 	
 	
-COPY  docker-entrypoint.sh /
-COPY  10-listen-on-ipv6-by-default.sh /docker-entrypoint.d
-COPY  15-local-resolvers.envsh /docker-entrypoint.d
-COPY  20-envsubst-on-templates.sh /docker-entrypoint.d
-COPY  30-tune-worker-processes.sh /docker-entrypoint.d	
+COPY  ./nginx/docker-entrypoint.sh /
+COPY  ./nginx/10-listen-on-ipv6-by-default.sh /docker-entrypoint.d
+COPY  ./nginx/15-local-resolvers.envsh /docker-entrypoint.d
+COPY  ./nginx/20-envsubst-on-templates.sh /docker-entrypoint.d
+COPY  ./nginx/30-tune-worker-processes.sh /docker-entrypoint.d	
 
 RUN chmod -R 700 /docker-entrypoint.d
 RUN chmod 700 docker-entrypoint.sh
@@ -128,7 +128,7 @@ RUN mkdir -p /var/run/nginx /var/tmp/nginx  \
 			  /usr/bin/head /usr/bin/nc /usr/bin/nl /usr/bin/pgrep /usr/bin/pkill /usr/bin/tee /usr/bin/tail /usr/bin/top /usr/bin/tr /usr/bin/unzip /usr/bin/uptime /usr/bin/vi /usr/bin/wc \
 			  /usr/bin/wget /usr/bin/which /usr/bin/who /usr/bin/whois
 	
-COPY nginx.conf /etc/nginx/nginx.conf 
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 

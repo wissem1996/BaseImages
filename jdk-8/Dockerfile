@@ -62,14 +62,14 @@ RUN chmod 700 /tmp /opt/users/pfe/  \
 # change owner /tmp to avoid permission denied java.io 	
 RUN chown pfe:pfe -R /tmp
 	
-COPY --chown=pfe:pfe ./entrypoint.sh /opt/entrypoint.sh
+COPY --chown=pfe:pfe ./jdk8/entrypoint.sh /opt/backend/entrypoint.sh
 
-RUN chmod 777 /opt/entrypoint.sh
+RUN chmod 777 /opt/backend/entrypoint.sh
 
 EXPOSE 8080
 USER pfe
 
-ENTRYPOINT ["/opt/entrypoint.sh"]
+ENTRYPOINT ["/opt/backend/entrypoint.sh"]
 	
 
 
