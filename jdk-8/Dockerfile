@@ -55,7 +55,7 @@ RUN rm -rf  /bin/cat  /bin/dd /bin/df  /bin/gunzip /bin/gzip  /bin/more  /bin/mo
 	
 RUN chmod 700 /tmp /opt/users/pfe/  \
 	&& chmod 640 ${PFE_HOME}/.bashrc /opt/users/pfe/.profile \
-	&& chmod 700  /etc/hosts /etc/hostname /etc/resolv.conf /.dockerenv \
+	&& chmod 700  /etc/hosts /etc/hostname /etc/resolv.conf  \
 	&& sed -e '/root/ s/^#*/#/' -i /etc/passwd \
 	&& chmod 640 ${PFE_HOME}/.bashrc /opt/users/pfe/.profile 
 
