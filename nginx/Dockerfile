@@ -128,7 +128,7 @@ RUN mkdir -p /var/run/nginx /var/tmp/nginx  \
 			  /usr/bin/head /usr/bin/nc /usr/bin/nl /usr/bin/pgrep /usr/bin/pkill /usr/bin/tee /usr/bin/tail /usr/bin/top /usr/bin/tr /usr/bin/unzip /usr/bin/uptime /usr/bin/vi /usr/bin/wc \
 			  /usr/bin/wget /usr/bin/which /usr/bin/who /usr/bin/whois
 	
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf 
+COPY --chown=pfe:pfe ./nginx/nginx.conf /etc/nginx/nginx.conf 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 
