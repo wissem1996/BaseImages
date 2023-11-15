@@ -16,12 +16,12 @@ WORKDIR  $BACKEND_HOME
 
 RUN apk update \
     && apk add openjdk8-jre \
-    && apk upgrade libssl3 libcrypto3 
+    && apk upgrade libssl3 libcrypto3 \
     ## Fixing the  libcrypto3/libssl3 CVE-2023-2650 vulnerability
     && addgroup -S pfe  \
     && mkdir -p $PFE_HOME/bin \
     && adduser -D -S -h $PFE_HOME -s $PFE_HOME/bin/bash -G pfe pfe  \
-	&& ln -s /bin/ls  $PFE_HOME/bin/ls  \
+    && ln -s /bin/ls  $PFE_HOME/bin/ls  \
     && ln -s /usr/bin/tail  $PFE_HOME/bin/tail  \
     && ln -s /usr/bin/cut  $PFE_HOME/bin/cut  \
     && ln -s /bin/uname  $PFE_HOME/bin/uname  \
