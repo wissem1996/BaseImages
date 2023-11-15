@@ -10,13 +10,14 @@ ENV PATH $BACKEND_HOME/bin:$PATH
 
 
 WORKDIR  $BACKEND_HOME
-# Add the WildFly distribution to /opt, and make wildfly the owner of the extracted tar content
 # Make sure the distribution is available from a well-known place
 
 	## Adding user pfe 
 
 RUN apk update \
     && apk add openjdk8-jre \
+    && apk upgrade libssl3 libcrypto3 
+    ## Fixing the  libcrypto3/libssl3 CVE-2023-2650 vulnerability
     && addgroup -S pfe  \
     && mkdir -p $PFE_HOME/bin \
     && adduser -D -S -h $PFE_HOME -s $PFE_HOME/bin/bash -G pfe pfe  \
