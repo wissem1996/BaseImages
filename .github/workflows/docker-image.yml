@@ -24,6 +24,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           push: true
           tags: ${{ github.sha }}
+    - name: scan docker images
+      uses: azure/container-scan@v0
+      with:
+         image-name: wissemgh5/pfe_nginx:${{ github.sha }}
+         severity-threshold: HIGH
+         run-quality-checks: true
     - uses: mr-smithers-excellent/docker-build-push@v6
       id: build-image-jdk8
       name: build-image-jdk8
@@ -35,6 +41,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           push: true
           tags: ${{ github.sha }}
+    - name: scan docker images
+      uses: azure/container-scan@v0
+      with:
+         image-name: wissemgh5/pfe_jdk8:${{ github.sha }}
+         severity-threshold: HIGH
+         run-quality-checks: true
 
   update-Dockerfiles-stage:
     runs-on: ubuntu-latest
