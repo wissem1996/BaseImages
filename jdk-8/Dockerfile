@@ -14,9 +14,9 @@ WORKDIR  $BACKEND_HOME
 
 	## Adding user pfe 
 
-RUN apk update \
-    && apk add openjdk8-jre \
-    && apk upgrade libssl3 libcrypto3 \
+RUN apk update --no-cache \
+    && apk add openjdk8-jre --no-cache \
+    && apk upgrade libssl3 libcrypto3 --no-cache \
     ## Fixing the  libcrypto3/libssl3 CVE-2023-2650 vulnerability
     && addgroup -S pfe  \
     && mkdir -p $PFE_HOME/bin \
