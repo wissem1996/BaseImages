@@ -9,8 +9,8 @@ ENV ACCEPT_EULA=Y \
 USER root
 
 # Install only required packages with microdnf (UBI uses microdnf)
-RUN microdnf update -y 
-RUN microdnf install -y \
+RUN apt-get update -y 
+RUN apt-get install -y \
         python3 \
         python3-pip \
         mailx \
@@ -20,7 +20,7 @@ RUN microdnf install -y \
         gnupg2 \
         less && \
     pip3 install --no-cache-dir awscli && \
-    microdnf clean all && \
+    apt-get clean all && \
     rm -rf /root/.cache /var/cache/yum
 EXPOSE 1433
 
