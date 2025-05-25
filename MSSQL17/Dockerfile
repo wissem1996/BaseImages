@@ -3,6 +3,7 @@ FROM mcr.microsoft.com/mssql/server:2017-latest
 # Set environment variables early
 ENV ACCEPT_EULA=Y \
     SA_PASSWORD=ChangeIt!12345 \
+    DEBIAN_FRONTEND=noninteractive \
     PATH=$PATH:/root/.local/bin
 
 # Use a non-root user (SQL Server runs as root by default, but see notes below)
