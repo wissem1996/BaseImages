@@ -1,31 +1,46 @@
-FROM mcr.microsoft.com/mssql/server:2017-latest
+FROM registry.access.redhat.com/ubi8/ubi
 
-# Set environment variables early
-ENV ACCEPT_EULA=Y \
-    SA_PASSWORD=ChangeIt!12345 \
-    DEBIAN_FRONTEND=noninteractive \
-    PATH=$PATH:/root/.local/bin
+ENV DEBIAN_FRONTEND=noninteractive \
+    ACCEPT_EULA=Y \
+    PATH=$PATH:/opt/mssql-tools/bin
 
-# Use a non-root user (SQL Server runs as root by default, but see notes below)
-USER root
-
-# Install only required packages with microdnf (UBI uses microdnf)
-RUN apt-get update -y && \
-        apt-get install -y \
+# Install dependencies and Microsoft repo
+RUN microdnf update -y && \
+    microdnf install -y \
+        curl \
+        tar \
+        gzip \
+        mailx \
         python3 \
         python3-pip \
-        mailutils \
-        curl \
+        krb5-workstation \
+        krb5-libs \
+        krb5-devel \
+        shadow-utils \
+        findutils \
         unzip \
+        hostname \
+        less \
+        procps-ng \
+        which \
         ca-certificates \
-        gnupg2 \
-        krb5-user \
-        libkrb5-dev \
-        less && \      
-    pip3 install --no-cache-dir awscli && \
-    apt-get clean all && \
-    rm -rf /root/.cache /var/cache/yum
-EXPOSE 1433
+        gcc \
+        libffi-devel \
+        openssl-devel \
+        git \
+        make && \
+    microdnf clean all
 
-# SQL Server entrypoint
-CMD ["/opt/mssql/bin/sqlservr"]
+# Install mssql-tools (sqlcmd)
+RUN curl -sSL https://packages.microsoft.com/config/rhel/8/prod.repo -o /etc/yum.repos.d/mssql-release.repo && \
+    ACCEPT_EULA=Y microdnf install -y mssql-tools unixODBC-devel && \
+    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+
+# Install AWS CLI
+RUN pip3 install --no-cache-dir awscli
+
+# Clean up
+RUN rm -rf /var/cache /root/.cache
+
+# Default entrypoint (can be overridden)
+ENTRYPOINT ["/bin/bash"]
