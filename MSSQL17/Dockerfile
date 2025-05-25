@@ -1,46 +1,46 @@
-FROM registry.access.redhat.com/ubi8/ubi:latest
+FROM debian:bullseye-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
     ACCEPT_EULA=Y \
     PATH=$PATH:/opt/mssql-tools/bin
 
 # Install dependencies and Microsoft repo
-RUN dnf update -y && \
-    dnf install -y \
+RUN apt-get update && \
+    apt-get install -y \
         curl \
         tar \
         gzip \
-        mailx \
+        mailutils \
         python3 \
         python3-pip \
-        krb5-workstation \
-        krb5-libs \
-        krb5-devel \
-        shadow-utils \
+        krb5-user \
+        libkrb5-dev \
+        passwd \
         findutils \
         unzip \
         hostname \
         less \
-        procps-ng \
-        which \
+        procps \
         ca-certificates \
         gcc \
-        libffi-devel \
-        openssl-devel \
+        libffi-dev \
+        libssl-dev \
         git \
-        make && \
-    dnf clean all
+        make \
+        gnupg && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install mssql-tools (sqlcmd)
-RUN curl -sSL https://packages.microsoft.com/config/rhel/8/prod.repo -o /etc/yum.repos.d/mssql-release.repo && \
-    ACCEPT_EULA=Y dnf install -y mssql-tools unixODBC-devel && \
-    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
+    install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ && \
+    echo "deb [arch=amd64] https://packages.microsoft.com/debian/10/prod buster main" > /etc/apt/sources.list.d/mssql-release.list && \
+    apt-get update && \
+    ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev && \
+    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc && \
+    rm -rf /var/lib/apt/lists/* microsoft.gpg
 
 # Install AWS CLI
 RUN pip3 install --no-cache-dir awscli
 
-# Clean up
-RUN rm -rf /var/cache /root/.cache
-
-# Default entrypoint (can be overridden)
+# Default entrypoint
 ENTRYPOINT ["/bin/bash"]
