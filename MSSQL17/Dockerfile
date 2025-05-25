@@ -10,8 +10,8 @@ ENV ACCEPT_EULA=Y \
 USER root
 
 # Install only required packages with microdnf (UBI uses microdnf)
-RUN apt-get update -y 
-RUN apt-get install -y \
+RUN apt-get update -y && \
+        apt-get install -y \
         python3 \
         python3-pip \
         mailutils \
@@ -19,7 +19,9 @@ RUN apt-get install -y \
         unzip \
         ca-certificates \
         gnupg2 \
-        less && \
+        krb5-user \
+        libkrb5-dev \
+        less && \      
     pip3 install --no-cache-dir awscli && \
     apt-get clean all && \
     rm -rf /root/.cache /var/cache/yum
