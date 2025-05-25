@@ -17,9 +17,9 @@ jobs:
     - name: build-image-Pyhon
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
-          image: wissemgh5/bsimg_python
+          image: wissemgh5/bsimg_MSSQL17
           registry: docker.io
-          dockerfile: ./Python/Dockerfile
+          dockerfile: ./MSSQL17/Dockerfile
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           push: true
@@ -27,6 +27,6 @@ jobs:
     - name: scan docker images
       uses: azure/container-scan@v0
       with:
-         image-name: wissemgh5/bsimg_python:${{ github.sha }}
+         image-name: wissemgh5/bsimg_MSSQL17:${{ github.sha }}
          severity-threshold: HIGH
          run-quality-checks: true
