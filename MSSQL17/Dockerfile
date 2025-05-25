@@ -5,8 +5,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PATH=$PATH:/opt/mssql-tools/bin
 
 # Install dependencies and Microsoft repo
-RUN microdnf update -y && \
-    microdnf install -y \
+RUN dnf update -y && \
+    dnf install -y \
         curl \
         tar \
         gzip \
@@ -29,7 +29,7 @@ RUN microdnf update -y && \
         openssl-devel \
         git \
         make && \
-    microdnf clean all
+    dnf clean all
 
 # Install mssql-tools (sqlcmd)
 RUN curl -sSL https://packages.microsoft.com/config/rhel/8/prod.repo -o /etc/yum.repos.d/mssql-release.repo && \
