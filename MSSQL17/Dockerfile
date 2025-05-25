@@ -9,8 +9,8 @@ ENV ACCEPT_EULA=Y \
 USER root
 
 # Install only required packages with microdnf (UBI uses microdnf)
-RUN microdnf update -y && \
-    microdnf install -y \
+RUN microdnf update -y 
+RUN microdnf install -y \
         python3 \
         python3-pip \
         mailx \
