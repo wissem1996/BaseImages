@@ -33,7 +33,7 @@ RUN dnf update -y && \
 
 # Install mssql-tools (sqlcmd)
 RUN curl -sSL https://packages.microsoft.com/config/rhel/8/prod.repo -o /etc/yum.repos.d/mssql-release.repo && \
-    ACCEPT_EULA=Y microdnf install -y mssql-tools unixODBC-devel && \
+    ACCEPT_EULA=Y dnf install -y mssql-tools unixODBC-devel && \
     echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 
 # Install AWS CLI
