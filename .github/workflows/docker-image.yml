@@ -23,10 +23,11 @@ jobs:
       with:
           image: wissemgh5/skillsceptor
           registry: docker.io
-          dockerfile: .
+          directory: SkillSpector
+          dockerfile: SkillSpector/Dockerfile
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          push: true
+          pushImage: true
           tags: ${{ github.sha }}
     - name: scan docker images
       uses: azure/container-scan@v0
