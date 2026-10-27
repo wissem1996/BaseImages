@@ -23,7 +23,7 @@ jobs:
       with:
           image: wissemgh5/skillsceptor
           registry: docker.io
-          dockerfile: ./Dockerfile
+          dockerfile: .
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           push: true
